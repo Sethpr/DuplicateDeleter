@@ -13,18 +13,20 @@ public abstract class DuplicateDeleter<T> implements DuplicateDeleterInterface<T
     }
 
     public T[] removeDuplicates(int maxNumberOfDuplications){
+        T[] array = this.array;
         for (int i = 0; i < array.length; i++) {
             if(getOccurrences(array[i]) >= maxNumberOfDuplications){
-                removeInstance(array[i], getOccurrences(array[i]));
+                array = removeInstance(array[i], getOccurrences(array[i]), array);
                 i--;
             }
         }
         return array;
     }
     public T[] removeDuplicatesExactly(int exactNumberOfDuplications){
+        T[] array = this.array;
         for (int i = 0; i < array.length; i++) {
             if(getOccurrences(array[i]) == exactNumberOfDuplications){
-                removeInstance(array[i], getOccurrences(array[i]));
+                array = removeInstance(array[i], getOccurrences(array[i]), array);
                 i--;
             }
         }
@@ -40,7 +42,7 @@ public abstract class DuplicateDeleter<T> implements DuplicateDeleterInterface<T
         return count;
     }
 
-    public void removeInstance(T toRemove, int occurrences){
+    public T[] removeInstance(T toRemove, int occurrences, T[] array){
         int counter = 0;
         T[] arr = (T[]) Array.newInstance(array[0].getClass(), array.length - occurrences);
         for(T t: array){
@@ -49,6 +51,6 @@ public abstract class DuplicateDeleter<T> implements DuplicateDeleterInterface<T
                 counter++;
             }
         }
-        array = arr;
+        return arr;
     }
 }
